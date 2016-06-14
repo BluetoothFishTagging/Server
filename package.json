@@ -1,8 +1,8 @@
 {
-  "name": "jamiecho",
+  "name": "Jamie Cho",
   "version": "0.0.0",
-  "description": "Olin.js Lesson 3",
-  "main": "main.js",
+  "description": "FishTags Server",
+  "main": "server.js",
   "dependencies": {
     "body-parser": "^1.14.1",
     "cookie-parser": "^1.4.0",
@@ -21,6 +21,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "jamie cho",
+  "author": "Jamie cho",
   "license": "ISC"
 }
