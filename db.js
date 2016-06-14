@@ -4,7 +4,7 @@
 
 /* Initialize Mongoose */
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://sangue:jcho5985@ds037185.mlab.com:37185/ycho');
 // --> replace with mongolab
 
 var con = mongoose.connection;
