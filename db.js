@@ -2,22 +2,18 @@
  * Created by jamiecho on 6/14/16.
  */
 
+/* Manipulate FileSystem */
+var fs = require('fs');
+var path = require('path');
+
 /* Initialize Mongoose */
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://sangue:jcho5985@ds037185.mlab.com:37185/ycho');
 // --> replace with mongolab
 
+/* Establish Connection */
 var con = mongoose.connection;
 
-/* Initialize GridFS */
-var gridfs = require('gridfs-stream');
-gridfs.mongo = mongoose.mongo;
-
-
-var fs = require('fs');
-var gfs = gridfs(con.db);
-
-//error
 con.on('error',function(err){
     console.log('ERROR!!');
     throw err;
@@ -26,6 +22,19 @@ con.on('error',function(err){
 con.on('open',function(){
     console.log('MONGODB Connection established');
 });
+
+
+/* Initialize GridFS */
+var gridfs = require('gridfs-stream');
+gridfs.mongo = mongoose.mongo;
+
+var gfs = gridfs(con.db);
+
+
+/* Create Temporary Directory */
+var tmp_dir = path.join(__dirname, 'tmp');
+if (!fs.existsSync(tmp_dir))
+    fs.mkdirSync(tmp_dir);
 
 exports.find = function(){
     //not supported yet
@@ -45,6 +54,7 @@ exports.read = function(name, func){
     var readstream = gfs.createReadStream({
         filename: name
     });
-    var writestream = fs.createWriteStream(__dirname + '/tmp/' + name);
+
+    var writestream = fs.createWriteStream(path.join(tmp_dir, name));
     return readstream.pipe(writestream);
  };
