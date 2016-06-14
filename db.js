@@ -14,12 +14,12 @@ mongoose.connect('mongodb://sangue:jcho5985@ds037185.mlab.com:37185/ycho');
 /* Establish Connection */
 var con = mongoose.connection;
 
-con.on('error',function(err){
+con.on('error', function (err) {
     console.log('ERROR!!');
     throw err;
 });
 
-con.on('open',function(){
+con.on('open', function () {
     console.log('MONGODB Connection established');
 });
 
@@ -36,12 +36,11 @@ var tmp_dir = path.join(__dirname, 'tmp');
 if (!fs.existsSync(tmp_dir))
     fs.mkdirSync(tmp_dir);
 
-exports.find = function(){
+exports.find = function () {
     //not supported yet
-
 };
 
-exports.write = function(photo){
+exports.write = function (photo) {
     //copies from ephemeral filesystem
     var writestream = gfs.createWriteStream({
         filename: photo.name
@@ -49,7 +48,7 @@ exports.write = function(photo){
     return fs.createReadStream(photo.path).pipe(writestream);
 };
 
-exports.read = function(name, func){
+exports.read = function (name, func) {
     //copies to epheemral filesystem
     var readstream = gfs.createReadStream({
         filename: name
@@ -57,4 +56,4 @@ exports.read = function(name, func){
 
     var writestream = fs.createWriteStream(path.join(tmp_dir, name));
     return readstream.pipe(writestream);
- };
+};

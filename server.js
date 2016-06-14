@@ -11,15 +11,15 @@ var app = express();
 var db = require('./db'); //deals with database connection
 
 app.use(bodyparser.json());
-app.use(express.static(path.join(__dirname,'tmp'))); //static resources like images.
+app.use(express.static(path.join(__dirname, 'tmp'))); //static resources like images.
 
-app.set('view engine','jade');
+app.set('view engine', 'jade');
 
-app.get('/',function(req,res){
+app.get('/', function (req, res) {
     res.render('upload');
 });
 
-app.post('/',function(req,res){
+app.post('/', function (req, res) {
     var form = new formidable.IncomingForm();
     form.uploadDir = __dirname + '/tmp';
     form.keepExtensions = true;
@@ -32,18 +32,18 @@ app.post('/',function(req,res){
         }
     });
 
-    form.on('end',function(){
-       res.render('upload')
+    form.on('end', function () {
+        res.render('upload')
     });
 });
 
-app.get('/view', function(req,res){
+app.get('/view', function (req, res) {
     //testing
-    db.read('olin.jpg').on('finish',function(){
-        res.render('view',{data:['olin.jpg']});
+    db.read('olin.jpg').on('finish', function () {
+        res.render('view', {data: ['olin.jpg']});
     });
 });
 
-app.listen(process.env.PORT || 8000, function(){
+app.listen(process.env.PORT || 8000, function () {
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
