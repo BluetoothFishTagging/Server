@@ -1,6 +1,6 @@
 {
   "name": "Jamie Cho",
-  "version": "0.0.0",
+  "version": "4.2.6",
   "description": "FishTags Server",
   "main": "server.js",
   "dependencies": {
