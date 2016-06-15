@@ -6,6 +6,7 @@ var express = require('express');
 var formidable = require('formidable');
 var bodyparser = require('body-parser');
 var path = require('path');
+var async = require('async');
 
 var app = express();
 var db = require('./db'); //deals with database connection
@@ -28,20 +29,39 @@ app.post('/', function (req, res) {
         if (!err) {
             console.log('Fields: ', fields);
             console.log('Files Uploaded: ' + files.photo);
-            db.write(files.photo);
+            db.write(fields.fisher,fields.tag,files.photo,function(){
+                res.render('upload');
+            });
+        }else{
+            //set header, error handling, etc.
+            res.end('ERROR');
         }
-    });
-
-    form.on('end', function () {
-        res.render('upload')
     });
 });
 
 app.get('/view', function (req, res) {
-    //testing
-    db.read('olin.jpg').on('finish', function () {
-        res.render('view', {data: ['olin.jpg']});
+    db.find(null, function(error,tags){
+        console.log(tags);
+        async.each(tags,
+            // for each tag
+            function(tag,callback) {
+                db.read(tag._id, function (res) {
+                    callback();
+                })
+            },
+            //on result
+            function(err){
+                console.log("HERE");
+                console.log(tags);
+                res.render('view', {tags : tags});
+            }
+        );
     });
+
+    //testing
+    //db.imread('olin.jpg').on('finish', function () {
+    //    res.render('view', {data: ['olin.jpg']});
+    //});
 });
 
 app.listen(process.env.PORT || 8000, function () {
