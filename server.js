@@ -29,7 +29,7 @@ app.post('/', function (req, res) {
         if (!err) {
             console.log('Fields: ', fields);
             console.log('Files Uploaded: ' + files.photo);
-            db.write(fields.fisher,fields.tag,files.photo,function(){
+            db.write(fields.personInfo,fields.tagInfo,files.photo,function(){
                 res.render('upload');
             });
         }else{

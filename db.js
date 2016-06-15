@@ -34,9 +34,9 @@ con.once('open', function () {
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var tagSchema = mongoose.Schema({ //todo : parser fisher/tag info
-    fisher : String,
-    tag : String,
-    img : String
+    personInfo : String,
+    tagInfo : String,
+    photo : String
 });
 
 var tagModel = mongoose.model('tag',tagSchema);
@@ -67,16 +67,16 @@ function imread(name) {
 }
 
 
-function write(fisher,tag,img,callback){
-    console.log(fisher,tag,img);
+function write(personInfo,tagInfo,photo,callback){
+    console.log(personInfo,tagInfo,photo);
     async.parallel([
        function(callback){
            console.log("writing image");
-           return imwrite(img).on('finish',callback);
+           return imwrite(photo).on('finish',callback);
        },
        function(callback){
            console.log('Writing to tagmodel');
-           var entry = new tagModel({fisher:fisher,tag:tag,img:img.name});
+           var entry = new tagModel({personInfo:personInfo,tagInfo:tagInfo,photo:photo.name});
            entry.save(callback);
        }
     ], callback);
@@ -93,7 +93,7 @@ function read(id, callback){
             })
         },
         function(res,callback){
-            imread(res.img).on('close',function(file){
+            imread(res.photo).on('close',function(file){
                 callback(null,res);
             });
         }

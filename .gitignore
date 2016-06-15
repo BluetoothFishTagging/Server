@@ -75,3 +75,6 @@ tags
 npm-debug.log
 .DS_Store
 /*.env
+
+### TEMPORARIES ###
+/tmp
