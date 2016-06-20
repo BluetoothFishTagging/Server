@@ -54,7 +54,9 @@ app.get('/view', function (req, res) {
                 console.log("HERE");
                 console.log(tags);
                 for(t in tags){
-                    console.log(JSON.parse(t));
+                    p = JSON.parse(t);
+                    console.log(p.photo);
+                    //console.log(JSON.parse(t));
                 }
                 res.render('view', {tags : tags});
             }
