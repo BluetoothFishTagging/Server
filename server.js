@@ -53,6 +53,9 @@ app.get('/view', function (req, res) {
             function(err){
                 console.log("HERE");
                 console.log(tags);
+                for(t in tags){
+                    console.log(JSON.parse(t));
+                }
                 res.render('view', {tags : tags});
             }
         );
