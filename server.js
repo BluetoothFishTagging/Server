@@ -29,10 +29,11 @@ app.post('/', function (req, res) {
         if (!err) {
             console.log('Fields: ', fields);
             console.log('Files Uploaded: ' + files.photo);
-            db.write(fields.personInfo,fields.tagInfo,files.photo,function(){
+
+            db.write(fields.personInfo, fields.tagInfo, files.photo, function () {
                 res.render('upload');
             });
-        }else{
+        } else {
             //set header, error handling, etc.
             res.end('ERROR');
         }
@@ -40,25 +41,35 @@ app.post('/', function (req, res) {
 });
 
 app.get('/view', function (req, res) {
-    db.find(null, function(error,tags){
-        console.log(tags);
+    db.find(null, function (error, tags) {
+        //console.log(tags);
         async.each(tags,
             // for each tag
-            function(tag,callback) {
+            function (tag, callback) {
                 db.read(tag._id, function (res) {
                     callback();
                 })
             },
             //on result
-            function(err){
+            function (err) {
                 console.log("HERE");
-                console.log(tags);
-                for(t in tags){
-                    p = JSON.parse(t);
-                    console.log(p.photo);
-                    //console.log(JSON.parse(t));
+                for (i in tags) {
+                    var tag = tags[i];
+                    console.log(tag.photo);
+
+                    /* example parsing ... */
+                    var personInfo = JSON.parse(tag.personInfo);
+                    var tagInfo = JSON.parse(tag.tagInfo);
+                    console.log('name : ', personInfo.name);
+
+                    //console.log(p);
+                    //console.log(p.photo);
+
+                    //var json_tag = tags[i].replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
+                    //p = JSON.parse(jso2n_tag);
+                    //console.log(p.photo);
                 }
-                res.render('view', {tags : tags});
+                res.render('view', {tags: tags});
             }
         );
     });
