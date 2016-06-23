@@ -100,9 +100,9 @@ function read(id, callback){
     ], callback);
 }
 
-function find(id, callback){
-    if(id)
-        tagModel.find({__id:id},callback);
+function find(query, callback){
+    if(query)
+        tagModel.find(query,callback);
     else
         return tagModel.find({},callback);
 }

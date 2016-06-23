@@ -80,6 +80,26 @@ app.get('/view', function (req, res) {
     //});
 });
 
+app.get('/query', function(req,res){
+    var name = req.query.name; //person name
+    db.find(null, function(err,tags){
+        var mytags = [];
+
+        for(i in tags){
+            var tag = tags[i];
+            var personInfo = JSON.parse(tag.personInfo);
+
+            if(personInfo.name == name){
+                mytags.push(tag.tagInfo);
+            }
+
+        }
+
+        res.end(JSON.stringify(mytags));
+    });
+
+});
+
 app.listen(process.env.PORT || 8000, function () {
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
