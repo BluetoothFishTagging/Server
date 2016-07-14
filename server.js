@@ -16,11 +16,11 @@ app.use(express.static(path.join(__dirname, 'tmp'))); //static resources like im
 
 app.set('view engine', 'jade');
 
-app.get('/', function (req, res) {
+app.get('/upload', function (req, res) {
     res.render('upload');
 });
 
-app.post('/', function (req, res) {
+app.post('/upload', function (req, res) {
     var form = new formidable.IncomingForm();
     form.uploadDir = __dirname + '/tmp';
     form.keepExtensions = true;
@@ -40,38 +40,57 @@ app.post('/', function (req, res) {
     });
 });
 
-app.get('/view', function (req, res) {
-    db.find(null, function (error, tags) {
-        //console.log(tags);
-        async.each(tags,
-            // for each tag
-            function (tag, callback) {
-                db.read(tag._id, function (res) {
-                    callback();
-                })
-            },
-            //on result
-            function (err) {
-                console.log("HERE");
-                for (i in tags) {
-                    var tag = tags[i];
-                    console.log(tag.photo);
+app.get('/', function(req,res){
+    res.render('login');
+});
 
-                    /* example parsing ... */
-                    var personInfo = JSON.parse(tag.personInfo);
-                    var tagInfo = JSON.parse(tag.tagInfo);
-                    console.log('name : ', personInfo.name);
+app.get('/view',function(req,res){
+   res.render('login');
+   //
+});
 
-                    //console.log(p);
-                    //console.log(p.photo);
+app.post('/view', function (req, res) {
+    var form = new formidable.IncomingForm();
 
-                    //var json_tag = tags[i].replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
-                    //p = JSON.parse(jso2n_tag);
-                    //console.log(p.photo);
-                }
-                res.render('view', {tags: tags});
-            }
-        );
+    form.parse(req,function(err,fields,files){
+        if(fields.id == 'TunaDr3ams'){
+        //really really unsafe to embed id in js and put on github,
+        // but better than nothing
+            db.find(null, function (error, tags) {
+                //console.log(tags);
+                async.each(tags,
+                    // for each tag
+                    function (tag, callback) {
+                        db.read(tag._id, function (res) {
+                            callback();
+                        })
+                    },
+                    //on result
+                    function (err) {
+                        console.log("HERE");
+                        for (i in tags) {
+                            var tag = tags[i];
+                            console.log(tag.photo);
+
+                            /* example parsing ... */
+                            var personInfo = JSON.parse(tag.personInfo);
+                            var tagInfo = JSON.parse(tag.tagInfo);
+                            console.log('name : ', personInfo.name);
+
+                            //console.log(p);
+                            //console.log(p.photo);
+
+                            //var json_tag = tags[i].replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
+                            //p = JSON.parse(jso2n_tag);
+                            //console.log(p.photo);
+                        }
+                        res.render('view', {tags: tags});
+                    }
+                );
+            });
+        }else{
+            res.end('INVALID LOGIN');
+        }
     });
 
     //testing
@@ -96,6 +115,18 @@ app.get('/query', function(req,res){
         }
 
         res.end(JSON.stringify(mytags));
+    });
+
+});
+
+app.post('/delete',function(req,res){
+    var form = new formidable.IncomingForm();
+    form.uploadDir = __dirname + '/tmp';
+    form.keepExtensions = true;
+
+    form.parse(req, function (err, fields, files) {
+        db.delete(fields.id);
+        res.end("DELETE COMPLETE");
     });
 
 });

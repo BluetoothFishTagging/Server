@@ -112,3 +112,18 @@ exports.imread = imread;
 exports.write = write;
 exports.read = read;
 exports.find = find;
+
+exports.delete = function(id, callback){
+    tagModel.findById(id,function(err,doc){
+        console.log(doc);
+        gfs.remove({filename : doc.photo},function(err){
+            if(err){
+                console.log(err);
+            }else{
+                doc.remove();
+                console.log("REMOVE SUCCESS");
+            }
+        });
+
+    });
+};
