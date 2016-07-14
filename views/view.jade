@@ -57,7 +57,7 @@ mixin entryFormat(entry)
         td
             img(src=entry.photo, width='300px', height='300px')
         td
-            form(method="POST", action="delete")
+            form(method="POST", action="delete", onsubmit="return confirm('Are you sure you want to delete this entry?')")
                 button(type='submit',name='id',value='#{entry._id}') DELETE
 
 html(lang="en")
