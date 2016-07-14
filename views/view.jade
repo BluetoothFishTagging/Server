@@ -1,16 +1,64 @@
 //
    Created by jamiecho on 6/14/16.
 mixin tagFormat(tag)
+    div
+        table
+            tr
+                td
+                    p CountryId
+                td
+                    p #{tag.CountryID}
+            tr
+                td
+                    p Time
+                td
+                    p #{tag.Time}
+            tr
+                td
+                    p Location
+                td
+                    p #{tag.Location}
+            tr
+                td
+                    p Comments
+                td
+                    p #{Comments}
+mixin personFormat(person)
+    div
+        table
+            tr
+                td
+                    p Name
+                td
+                    p #{person.name}
+            tr
+                td
+                    p E-mail
+                td
+                    p #{person.email}
+            tr
+                td
+                    p Phone
+                td
+                    p #{person.phone}
+            tr
+                td
+                    p Address
+                td
+                    p #{person.address_1}
+                    p #{person.address_2}
+
+mixin entryFormat(entry)
     tr
         td
-            p=tag.personInfo
+            +tagFormat(entry.tagInfo)
         td
-            p=tag.tagInfo
+            +personFormat(entry.personInfo)
         td
-            img(src=tag.photo, width='300px', height='300px')
+            img(src=entry.photo, width='300px', height='300px')
         td
             form(method="POST", action="delete")
-                button(type='submit',name='id',value='#{tag._id}') DELETE
+                button(type='submit',name='id',value='#{entry._id}') DELETE
 
 html(lang="en")
     head
@@ -18,9 +66,9 @@ html(lang="en")
     body
         table
             tr
-                th person Info
                 th tag Info
+                th person Info
                 th photo
                 th delete
-            each tag in tags
-                +tagFormat(tag)
+            each entry in entries
+                +entryFormat(entry)
