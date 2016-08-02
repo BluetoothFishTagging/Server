@@ -57,4 +57,75 @@ MLab Website has instructions too, but here is a copy of it:
       
 ## Support for Complex File Types with GridFS
 
+GridFS allows you to store files such as images into MongoDB.
 
+### Installing GridFS
+
+ - With NPM: 
+
+   ```base
+   npm install gridfs-stream
+   ```
+
+### Using GridFS
+
+[GridFS](https://docs.mongodb.com/manual/core/gridfs/) is a specification for storing and retrieving files that exceed the BSON-document size limit of 16 MB.
+
+Documentation on accessing GridFS through the shell is in the link above.
+
+ - Connecting (with Mongoose)
+
+   ```javascript
+
+   var mongoose = require('mongoose');
+   mongoose.connect('YOUR DATABASE ENDPOINT');
+
+   var gridfs = require('gridfs-stream')
+   gridfs.mongo = mongoose.mongo;
+
+   var con = mongoose.connection;
+   var gfs = null;
+   con.once('open', function () {
+       console.log('MONGODB Connection established');
+       //initialize gridfs
+       gfs = gridfs(con.db);
+   });
+   ```
+
+ - Writing to GridFS
+
+   ```javascript
+   function gfsWrite(filename){
+      var writestream = gfs.createWriteStream({
+         filename: filename
+      });
+      return fs.createReadstream(filename).pipe(writestream);
+   }
+   ```
+
+ - Reading from GridFS
+
+   ```javascript
+   function gfsRead(filename){
+      var readstream = gfs.createdReadStream({
+         filename: filename 
+      });
+      return readstream.pipe(writestream);
+   }
+   ```
+
+ - Deleting from GridFS
+
+   ```javascript
+   function gfsDelete(filename){
+      gfs.remove({filename : filename},function(err){
+          if(err){
+              console.log(err);
+          }else{
+              doc.remove();
+              console.log("REMOVE SUCCESS");
+          }
+      });
+   
+   }
+   ```
