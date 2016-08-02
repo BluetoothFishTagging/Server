@@ -8,13 +8,15 @@ filename: mongodb
 
 ## Installing MongoDB
 
+Follow the guide [here](https://www.howtoforge.com/tutorial/install-mongodb-on-ubuntu-14.04/)
+
+[Here](http://www.tutorialspoint.com/mongodb/) is a reasonably good MongoDB tutorial.
+
 ## Using MongoDB with Node.js
 
- - Installing: 
-
-   ```bash
-   npm install mongoose
-   ```
+```bash
+npm install mongoose
+```
 
 It is quite easy to use mongoose. I suggest following the docs [here](http://mongoosejs.com/docs/).
 
@@ -43,16 +45,18 @@ You get 500 MB for free when you sign up, which is quite nice of them.
 
 MLab Website has instructions too, but here is a copy of it:
 
+(db endpoint should look like some_string.mlab.com:port, where port is a number. You should be able to find it at the website.)
+
  - Mongo shell:
 
    ```bash
-   mongo ds139735.mlab.com:39735/<dbname> -u <dbuser> -p <dbpassword
+   mongo <dbendpoint>/<dbname> -u <dbuser> -p <dbpassword>
    ```
 
  - Mongoose:
 
    ```javascript
-   mongoose.connect(mongodb://<dbuser>:<dbpassword>@ds139735.mlab.com:39735/<dbname>)
+   mongoose.connect(mongodb://<dbuser>:<dbpassword>@<dbendpoint>/<dbname>)
    ```
       
 ## Support for Complex File Types with GridFS
