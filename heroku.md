@@ -100,6 +100,12 @@ This Guide is based on the [official heroku guide](https://devcenter.heroku.com/
    heroku open
    ```
 
+7. [Tip] if you need to configure environmental variables:
+
+   ```bash
+   heroku config:set VAR1_NAME=VAR1_VALUE VAR2_NAME=VAR2_VALUE
+   ```
+
 ## Running Heroku Locally
 
 If you have to test new features that aren't yet stable, you wouldn't want to experiment in your running instance.
