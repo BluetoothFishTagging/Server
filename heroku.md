@@ -112,6 +112,6 @@ If you have to test new features that aren't yet stable, you wouldn't want to ex
 
 That is what local instances are for.
 
-    ```bash
-    heroku local 
-    ```
+   ```bash
+   heroku local 
+   ```
