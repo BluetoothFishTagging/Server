@@ -70,8 +70,8 @@ app.post('/view', function (req, res) {
                     function (err) {
                         console.log("HERE");
                         var entries_reform = entries.map(function(entry){
-
                             var entry_reform = {
+                                _id : entry._id,
                                 photo : entry.photo,
                                 personInfo : JSON.parse(entry.personInfo),
                                 tagInfo : JSON.parse(entry.tagInfo)
